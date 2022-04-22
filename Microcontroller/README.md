@@ -10,3 +10,9 @@ Components | PINs used
 1 x HM-10 Bluetooth Module | 5V, GND, D3, D4 
 1 x Photoresistor | 5V, GND, A2 
 1 x Switch | GND, D5
+
+
+
+## Libraries
+
+https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library
