@@ -2,7 +2,7 @@
 #include <TimerOne.h>
 #include <LiquidCrystal_I2C.h>
 
-const int buttonPin = 2;                  // Pin of the toggle button
+const int buttonPin = 5;                  // Pin of the toggle button
 int lastButtonState;
 int currentButtonState;
 
