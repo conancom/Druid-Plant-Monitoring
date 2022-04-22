@@ -16,3 +16,9 @@ Components | PINs used
 ## Libraries
 
 [LiquidCrystal I2C Library](https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library)
+
+[Temperature and Humidity Library](https://github.com/adafruit/DHT-sensor-library)
+
+[Adafruit Library (Driver for Sensors)](https://github.com/adafruit/Adafruit_Sensor) 
+
+[Software Serial Library (Changing Rx Tx)](https://github.com/PaulStoffregen/SoftwareSerial)
