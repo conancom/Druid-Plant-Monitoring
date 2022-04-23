@@ -5,6 +5,8 @@
 
 #define dhtPin 4
 #define dhtType DHT11
+#define photoresPin A2
+
 DHT dht(dhtPin, dhtType);
 
 
@@ -18,17 +20,32 @@ int modeSelectCopy;                       // Copy of Index of modes array
 
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-String modes[5] = {"Temperature", "Soil Moisture", "Air Quality", "Humidity", "Sunlight"};  // Modes for LCD display
+String modes[5] = {"Temperature", "Soil Moisture", "Air Quality", "Humidity", "Brightness"};  // Modes for LCD display
 String sensorValues[5];
+
+
+int getLuxValue(int analogVal)  {
+  // Conversion rule
+  float Vout = float(analogVal) * (5 / float(1023));// Conversion analog to voltage
+  float RLDR = (10000 * (5 - Vout))/ Vout; // Conversion voltage to resistance
+  int lumen = 500/(RLDR/1000); // Conversion resitance to lumen
+  
+  return lumen;
+}
 
 
 void getSensorData(void)  {
   sensorValues[0] = String(float(dht.readTemperature())) + "*C";
   sensorValues[3] = String(float(dht.readHumidity())) + "%"; 
+  sensorValues[4] = String(getLuxValue(analogRead(photoresPin))) + " Lumen";
+
+  // Testing values
   Serial.print("Temperature : ");
   Serial.print(sensorValues[0]);
   Serial.print("\tHumidity : ");
-  Serial.println(sensorValues[3]);
+  Serial.print(sensorValues[3]);
+  Serial.print("\tBrightness : ");
+  Serial.println(sensorValues[4]);
 }
 
 
