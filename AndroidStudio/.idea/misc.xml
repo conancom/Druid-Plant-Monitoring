@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Leon/Documents/GitHub/Druid-Plant-Monitoring/AndroidStudio/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Leon/Documents/GitHub/Druid-Plant-Monitoring/AndroidStudio/app/src/main/res/layout/control_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Leon/Documents/GitHub/Druid-Plant-Monitoring/AndroidStudio/app/src/main/res/layout/device_list.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Leon/Documents/GitHub/Druid-Plant-Monitoring/AndroidStudio/app/src/main/res/layout/device_name.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Leon/Documents/University/AndroidStudio/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Leon/Documents/University/Semester 2 2021/CSS332 Microcontrollers and Applications/Project/Druid-Plant-Monitoring/AndroidStudio/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
       </map>
