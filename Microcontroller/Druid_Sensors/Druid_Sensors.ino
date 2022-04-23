@@ -6,6 +6,7 @@
 #define dhtPin 4
 #define dhtType DHT11
 #define photoresPin A2
+#define soilPin A0
 
 DHT dht(dhtPin, dhtType);
 
@@ -28,16 +29,17 @@ int getLuxValue(int analogVal)  {
   // Conversion rule
   float Vout = float(analogVal) * (5 / float(1023));// Conversion analog to voltage
   float RLDR = (10000 * (5 - Vout))/ Vout; // Conversion voltage to resistance
-  int lumen = 500/(RLDR/1000); // Conversion resitance to lumen
+  int lux = 500/(RLDR/1000); // Conversion resitance to lumen
   
-  return lumen;
+  return lux;
 }
 
 
 void getSensorData(void)  {
   sensorValues[0] = String(float(dht.readTemperature())) + "*C";
+  sensorValues[1] = String(float(analogRead(soilPin)));
   sensorValues[3] = String(float(dht.readHumidity())) + "%"; 
-  sensorValues[4] = String(getLuxValue(analogRead(photoresPin))) + " Lumen";
+  sensorValues[4] = String(getLuxValue(analogRead(photoresPin))) + " Lux";
 
   // Testing values
   Serial.print("Temperature : ");
