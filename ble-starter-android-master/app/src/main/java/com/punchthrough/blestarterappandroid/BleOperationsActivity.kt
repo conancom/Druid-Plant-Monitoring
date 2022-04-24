@@ -37,7 +37,6 @@ import com.punchthrough.blestarterappandroid.ble.isNotifiable
 import com.punchthrough.blestarterappandroid.ble.isReadable
 import com.punchthrough.blestarterappandroid.ble.isWritable
 import com.punchthrough.blestarterappandroid.ble.isWritableWithoutResponse
-import com.punchthrough.blestarterappandroid.ble.toHexString
 import kotlinx.android.synthetic.main.activity_ble_operations.characteristics_recycler_view
 import kotlinx.android.synthetic.main.activity_ble_operations.log_scroll_view
 import kotlinx.android.synthetic.main.activity_ble_operations.log_text_view
@@ -179,6 +178,7 @@ class BleOperationsActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     @SuppressLint("InflateParams")
     private fun showWritePayloadDialog(characteristic: BluetoothGattCharacteristic) {
         val hexField = layoutInflater.inflate(R.layout.edittext_hex_payload, null) as EditText
@@ -188,9 +188,11 @@ class BleOperationsActivity : AppCompatActivity() {
             yesButton {
                 with(hexField.text.toString()) {
                     if (isNotBlank() && isNotEmpty()) {
-                        val bytes = hexToBytes()
-                        log("Writing to ${characteristic.uuid}: ${bytes.toHexString()}")
+                        val bytes = toByteArray()
+                        log("Writing to ${characteristic.uuid}: ${bytes.decodeToString()}")
                         ConnectionManager.writeCharacteristic(device, characteristic, bytes)
+                        //000ffe1-0000-1000-8000-00805f9b34fb
+                        //ConnectionManager.writeCharacteristic(device
                     } else {
                         log("Please enter a hex payload to write to ${characteristic.uuid}")
                     }
@@ -201,6 +203,7 @@ class BleOperationsActivity : AppCompatActivity() {
         hexField.showKeyboard()
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private val connectionEventListener by lazy {
         ConnectionEventListener().apply {
             onDisconnect = {
@@ -214,7 +217,7 @@ class BleOperationsActivity : AppCompatActivity() {
             }
 
             onCharacteristicRead = { _, characteristic ->
-                log("Read from ${characteristic.uuid}: ${characteristic.value.toHexString()}")
+                log("Read from ${characteristic.uuid}: ${characteristic.value.decodeToString()}")
             }
 
             onCharacteristicWrite = { _, characteristic ->
@@ -226,7 +229,7 @@ class BleOperationsActivity : AppCompatActivity() {
             }
 
             onCharacteristicChanged = { _, characteristic ->
-                log("Value changed on ${characteristic.uuid}: ${characteristic.value.toHexString()}")
+                log("Value changed on ${characteristic.uuid}: ${characteristic.value.decodeToString()}")
             }
 
             onNotificationsEnabled = { _, characteristic ->
@@ -276,3 +279,4 @@ class BleOperationsActivity : AppCompatActivity() {
     private fun String.hexToBytes() =
         this.chunked(2).map { it.toUpperCase(Locale.US).toInt(16).toByte() }.toByteArray()
 }
+    private fun String.toAscii() = this.map { it.toInt() }.joinToString()

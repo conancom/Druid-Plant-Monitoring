@@ -13,13 +13,16 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
+
+  android:hint="Enter payload in hex (0-9, a-f, A-F)"
+   android:digits="0123456789abcdefABCDEF"
+
+
   -->
 
 <EditText xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:maxLines="1"
-    android:hint="Enter payload in hex (0-9, a-f, A-F)"
-    android:digits="0123456789abcdefABCDEF"
     android:importantForAutofill="no"
     android:inputType="text" />

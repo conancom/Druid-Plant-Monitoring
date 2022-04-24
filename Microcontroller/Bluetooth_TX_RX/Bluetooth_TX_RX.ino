@@ -11,8 +11,12 @@ void setup(){
 
 
 void loop(){
+   mySerial.begin(9600); 
   if (Serial.available()>0)
     mySerial.write(Serial.read());
+    mySerial.write("This is spam from Arduino");
+    delay(1500);
+    mySerial.end();
   if (mySerial.available()>0)
     Serial.write(mySerial.read());
 }
