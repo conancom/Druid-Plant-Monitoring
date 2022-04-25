@@ -40,8 +40,6 @@ import com.punchthrough.blestarterappandroid.ble.isWritableWithoutResponse
 import kotlinx.android.synthetic.main.activity_ble_operations.characteristics_recycler_view
 import kotlinx.android.synthetic.main.activity_ble_operations.log_scroll_view
 import kotlinx.android.synthetic.main.activity_ble_operations.log_text_view
-import kotlinx.android.synthetic.main.activity_ble_operations.mtu_field
-import kotlinx.android.synthetic.main.activity_ble_operations.request_mtu_button
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.selector
@@ -93,17 +91,7 @@ class BleOperationsActivity : AppCompatActivity() {
             title = getString(R.string.ble_playground)
         }
         setupRecyclerView()
-        request_mtu_button.setOnClickListener {
-            if (mtu_field.text.isNotEmpty() && mtu_field.text.isNotBlank()) {
-                mtu_field.text.toString().toIntOrNull()?.let { mtu ->
-                    log("Requesting for MTU value of $mtu")
-                    ConnectionManager.requestMtu(device, mtu)
-                } ?: log("Invalid MTU value: ${mtu_field.text}")
-            } else {
-                log("Please specify a numeric value for desired ATT MTU (23-517)")
-            }
-            hideKeyboard()
-        }
+
     }
 
     override fun onDestroy() {
@@ -154,6 +142,7 @@ class BleOperationsActivity : AppCompatActivity() {
     }
 
     private fun showCharacteristicOptions(characteristic: BluetoothGattCharacteristic) {
+
         characteristicProperties[characteristic]?.let { properties ->
             selector("Select an action to perform", properties.map { it.action }) { _, i ->
                 when (properties[i]) {

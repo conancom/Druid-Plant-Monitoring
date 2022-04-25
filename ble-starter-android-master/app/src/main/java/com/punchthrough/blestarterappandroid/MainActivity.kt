@@ -207,15 +207,21 @@ class MainActivity : AppCompatActivity() {
     private val scanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             val indexQuery = scanResults.indexOfFirst { it.device.address == result.device.address }
+
+
             if (indexQuery != -1) { // A scan result already exists with the same address
-                scanResults[indexQuery] = result
-                scanResultAdapter.notifyItemChanged(indexQuery)
-            } else {
-                with(result.device) {
-                    Timber.i("Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
+                if(result.device.name.equals("BT05")) {
+                    scanResults[indexQuery] = result
+                    scanResultAdapter.notifyItemChanged(indexQuery)
                 }
-                scanResults.add(result)
-                scanResultAdapter.notifyItemInserted(scanResults.size - 1)
+            } else {
+                if (result.device.name.equals("BT05")) {
+                    with(result.device) {
+                        Timber.i("Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
+                    }
+                    scanResults.add(result)
+                    scanResultAdapter.notifyItemInserted(scanResults.size - 1)
+                }
             }
         }
 

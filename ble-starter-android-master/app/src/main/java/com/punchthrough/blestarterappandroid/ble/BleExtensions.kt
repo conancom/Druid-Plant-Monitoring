@@ -34,10 +34,13 @@ fun BluetoothGatt.printGattTable() {
         return
     }
     services.forEach { service ->
+
         val characteristicsTable = service.characteristics.joinToString(
             separator = "\n|--",
             prefix = "|--"
         ) { char ->
+
+
             var description = "${char.uuid}: ${char.printProperties()}"
             if (char.descriptors.isNotEmpty()) {
                 description += "\n" + char.descriptors.joinToString(
@@ -52,6 +55,7 @@ fun BluetoothGatt.printGattTable() {
         Timber.i("Service ${service.uuid}\nCharacteristics:\n$characteristicsTable")
     }
 }
+
 
 fun BluetoothGatt.findCharacteristic(uuid: UUID): BluetoothGattCharacteristic? {
     services?.forEach { service ->
