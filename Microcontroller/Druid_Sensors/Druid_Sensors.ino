@@ -15,7 +15,7 @@ const int buttonPin = 5;
 int lastButtonState;
 int currentButtonState;
 
-const unsigned long duration = 2000000;   // Duration of display for 1 mode
+const unsigned long duration = 4000000;   // Duration of display for 1 mode
 volatile int modeSelect = 0;              // Index of modes array
 int modeSelectCopy;                       // Copy of Index of modes array
 
