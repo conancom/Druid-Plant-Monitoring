@@ -21,7 +21,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BleOperationsActivity">
+    android:visibility="visible"
+    tools:context=".BleOperationsActivity"
+    >
 
     <TextView
         android:id="@+id/characteristics_title"
@@ -38,46 +40,101 @@
         />
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/characteristics_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical"
+        android:id="@+id/layMain"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/textTemp"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:text="Temperature: "
+            />
+
+        <TextView
+            android:id="@+id/textSoil"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:text="Soil Moisture: "
+            />
+
+        <TextView
+            android:id="@+id/textAriQu"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:text="Air Quality: "
+            />
+
+        <TextView
+            android:id="@+id/textHumidity"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:text="Humidity: "
+            />
+
+        <TextView
+            android:id="@+id/textBrightness"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:text="Brightness: "
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linlayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/characteristics_title"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/characteristics_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="74dp"
             android:layout_weight="1"
             android:scrollbarFadeDuration="0"
             android:scrollbars="vertical"
-            tools:listitem="@layout/row_characteristic" />
+            tools:listitem="@layout/row_characteristic"
+            />
 
         <TextView
             android:id="@+id/log_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="Log"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            />
 
         <ScrollView
             android:id="@+id/log_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="4dp">
+            android:padding="4dp"
+            >
 
             <TextView
                 android:id="@+id/log_text_view"
-                android:scrollbars="vertical"
-                android:gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:scrollbars="vertical"
+                />
 
         </ScrollView>
 

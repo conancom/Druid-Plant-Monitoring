@@ -14,7 +14,7 @@ void loop(){
    mySerial.begin(9600); 
   if (Serial.available()>0)
     mySerial.write(Serial.read());
-    mySerial.write("This is spam from Arduino");
+    mySerial.write("xx;xxx;xxx;xxx;xxx");
     delay(1500);
     mySerial.end();
   if (mySerial.available()>0)

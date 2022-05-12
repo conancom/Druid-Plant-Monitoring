@@ -26,7 +26,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -55,7 +58,10 @@ class BleOperationsActivity : AppCompatActivity() {
     private val dateFormatter = SimpleDateFormat("MMM d, HH:mm:ss", Locale.US)
     private val characteristics by lazy {
         ConnectionManager.servicesOnDevice(device)?.flatMap { service ->
-            service.characteristics ?: listOf()
+
+                service.characteristics ?: listOf()
+
+
         } ?: listOf()
     }
     private val characteristicProperties by lazy {
@@ -73,7 +79,9 @@ class BleOperationsActivity : AppCompatActivity() {
     }
     private val characteristicAdapter: CharacteristicAdapter by lazy {
         CharacteristicAdapter(characteristics) { characteristic ->
-            showCharacteristicOptions(characteristic)
+
+                showCharacteristicOptions(characteristic)
+
         }
     }
     private var notifyingCharacteristics = mutableListOf<UUID>()
@@ -117,6 +125,7 @@ class BleOperationsActivity : AppCompatActivity() {
                 this@BleOperationsActivity,
                 RecyclerView.VERTICAL,
                 false
+
             )
             isNestedScrollingEnabled = false
         }
@@ -159,7 +168,7 @@ class BleOperationsActivity : AppCompatActivity() {
                             ConnectionManager.disableNotifications(device, characteristic)
                         } else {
                             log("Enabling notifications on ${characteristic.uuid}")
-                            ConnectionManager.enableNotifications(device, characteristic)
+
                         }
                     }
                 }
@@ -206,7 +215,17 @@ class BleOperationsActivity : AppCompatActivity() {
             }
 
             onCharacteristicRead = { _, characteristic ->
-                log("Read from ${characteristic.uuid}: ${characteristic.value.decodeToString()}")
+                var temp = characteristic.value.decodeToString().split(";").get(0);
+                var soil_moisture = characteristic.value.decodeToString().split(";").get(1);
+                var air_quality = characteristic.value.decodeToString().split(";").get(2);
+                var humidity = characteristic.value.decodeToString().split(";").get(3);
+                var brightness = characteristic.value.decodeToString().split(";").get(4);
+                log("Read from ${characteristic.uuid}:")
+                log("Temperature ${characteristic.uuid}: ${temp}")
+                log("Soil Moisture ${characteristic.uuid}: ${soil_moisture}")
+                log("Air Quality ${characteristic.uuid}: ${air_quality}")
+                log("Humidity ${characteristic.uuid}: ${humidity}")
+                log("Brightness ${characteristic.uuid}: ${brightness}")
             }
 
             onCharacteristicWrite = { _, characteristic ->
@@ -218,12 +237,45 @@ class BleOperationsActivity : AppCompatActivity() {
             }
 
             onCharacteristicChanged = { _, characteristic ->
-                log("Value changed on ${characteristic.uuid}: ${characteristic.value.decodeToString()}")
+                val textTemp = findViewById<TextView>(R.id.textTemp)
+                val textSoil = findViewById<TextView>(R.id.textSoil)
+                val textAir = findViewById<TextView>(R.id.textAriQu)
+                val textHumidity = findViewById<TextView>(R.id.textHumidity)
+                val textBrightness = findViewById<TextView>(R.id.textBrightness)
+
+
+                var temp = characteristic.value.decodeToString().split(";").get(0);
+                var soil_moisture = characteristic.value.decodeToString().split(";").get(1);
+                var air_quality = characteristic.value.decodeToString().split(";").get(2);
+                var humidity = characteristic.value.decodeToString().split(";").get(3);
+                var brightness = characteristic.value.decodeToString().split(";").get(4);
+
+                log("Read from ${characteristic.uuid}:")
+                log("Temperature: ${temp}")
+                log("Soil Moisture: ${soil_moisture}")
+                log("Air Quality: ${air_quality}")
+                log("Humidity: ${humidity}")
+                log("Brightness: ${brightness}")
+
+
+                textTemp.text = "Temperature: ${temp}"
+                textSoil.text = "Soil Moisture: ${soil_moisture}"
+                textAir.text = "Air Quality: ${air_quality}"
+                textHumidity.text = "Humidity: ${humidity}"
+                textBrightness.text = "Brightness: ${brightness}"
+
+
             }
 
             onNotificationsEnabled = { _, characteristic ->
                 log("Enabled notifications on ${characteristic.uuid}")
                 notifyingCharacteristics.add(characteristic.uuid)
+                ConnectionManager.enableNotifications(device, characteristic)
+                val ln = findViewById<LinearLayout>(R.id.linlayout)
+                ln.visibility = View.INVISIBLE
+
+                val lnmain = findViewById<LinearLayout>(R.id.layMain)
+                lnmain.visibility = View.VISIBLE
             }
 
             onNotificationsDisabled = { _, characteristic ->
