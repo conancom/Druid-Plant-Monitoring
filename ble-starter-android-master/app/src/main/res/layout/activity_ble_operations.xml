@@ -25,23 +25,6 @@
     tools:context=".BleOperationsActivity"
     >
 
-
-
-
-    <TextView
-        android:id="@+id/characteristics_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Druid Information"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.021"
-        />
-
     <LinearLayout
         android:id="@+id/layMain"
         android:layout_width="409dp"
@@ -92,8 +75,8 @@
 
     <LinearLayout
         android:id="@+id/linlayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="411dp"
+        android:layout_height="659dp"
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +109,7 @@
         <ScrollView
             android:id="@+id/log_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="301dp"
             android:layout_weight="1"
             android:padding="4dp"
             >
@@ -142,5 +125,34 @@
         </ScrollView>
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#99CC67"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        />
+
+    <TextView
+        android:id="@+id/characteristics_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Druid Information"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.021"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
