@@ -42,9 +42,9 @@
     <LinearLayout
         android:id="@+id/layMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,35 +55,35 @@
             android:id="@+id/textTemp"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:text="Temperature: "
+            android:text="@string/temperature"
             />
 
         <TextView
             android:id="@+id/textSoil"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:text="Soil Moisture: "
+            android:text="@string/soil_moisture"
             />
 
         <TextView
             android:id="@+id/textAriQu"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:text="Air Quality: "
+            android:text="@string/air_quality"
             />
 
         <TextView
             android:id="@+id/textHumidity"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:text="Humidity: "
+            android:text="@string/humidity"
             />
 
         <TextView
             android:id="@+id/textBrightness"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:text="Brightness: "
+            android:text="@string/brightness"
             />
     </LinearLayout>
 
@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

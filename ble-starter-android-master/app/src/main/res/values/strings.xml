@@ -17,4 +17,9 @@
 <resources>
     <string name="app_name">BLE Starter</string>
     <string name="ble_playground">BLE Playground</string>
+    <string name="temperature">Temperature:</string>
+    <string name="soil_moisture">Soil Moisture:</string>
+    <string name="air_quality">Air Quality:</string>
+    <string name="humidity">Humidity:</string>
+    <string name="brightness">Brightness:</string>
 </resources>

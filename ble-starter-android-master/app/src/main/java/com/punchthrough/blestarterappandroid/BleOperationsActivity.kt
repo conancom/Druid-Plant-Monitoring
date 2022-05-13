@@ -40,6 +40,7 @@ import com.punchthrough.blestarterappandroid.ble.isNotifiable
 import com.punchthrough.blestarterappandroid.ble.isReadable
 import com.punchthrough.blestarterappandroid.ble.isWritable
 import com.punchthrough.blestarterappandroid.ble.isWritableWithoutResponse
+import com.punchthrough.blestarterappandroid.ble.toHexString
 import kotlinx.android.synthetic.main.activity_ble_operations.characteristics_recycler_view
 import kotlinx.android.synthetic.main.activity_ble_operations.log_scroll_view
 import kotlinx.android.synthetic.main.activity_ble_operations.log_text_view
@@ -54,7 +55,23 @@ import java.util.UUID
 
 class BleOperationsActivity : AppCompatActivity() {
 
+    private lateinit var textTemp:TextView
+    private lateinit var textSoil:TextView
+    private lateinit var textAir:TextView
+    private lateinit var textHumidity:TextView
+    private lateinit var textBrightness:TextView
+
+/*
+    val textTemp:TextView = TODO() //findViewById<TextView>(R.id.textTemp)
+    val textSoil:TextView = TODO() //findViewById<TextView>(R.id.textSoil)
+    val textAir:TextView = TODO()//findViewById<TextView>(R.id.textAriQu)
+    val textHumidity:TextView = TODO()//findViewById<TextView>(R.id.textHumidity)
+    val textBrightness:TextView = TODO()//findViewById<TextView>(R.id.textBrightness)
+*/
+
     private lateinit var device: BluetoothDevice
+
+
     private val dateFormatter = SimpleDateFormat("MMM d, HH:mm:ss", Locale.US)
     private val characteristics by lazy {
         ConnectionManager.servicesOnDevice(device)?.flatMap { service ->
@@ -168,6 +185,19 @@ class BleOperationsActivity : AppCompatActivity() {
                             ConnectionManager.disableNotifications(device, characteristic)
                         } else {
                             log("Enabling notifications on ${characteristic.uuid}")
+                            ConnectionManager.enableNotifications(device, characteristic)
+
+                            val ln = findViewById<LinearLayout>(R.id.linlayout)
+                            ln.visibility = View.INVISIBLE
+
+                            val lnmain = findViewById<LinearLayout>(R.id.layMain)
+                            lnmain.visibility = View.VISIBLE
+
+                            textTemp = findViewById(R.id.textTemp)
+                            textSoil = findViewById(R.id.textSoil)
+                            textAir = findViewById(R.id.textAriQu)
+                            textHumidity = findViewById(R.id.textHumidity)
+                            textBrightness = findViewById(R.id.textBrightness)
 
                         }
                     }
@@ -237,11 +267,9 @@ class BleOperationsActivity : AppCompatActivity() {
             }
 
             onCharacteristicChanged = { _, characteristic ->
-                val textTemp = findViewById<TextView>(R.id.textTemp)
-                val textSoil = findViewById<TextView>(R.id.textSoil)
-                val textAir = findViewById<TextView>(R.id.textAriQu)
-                val textHumidity = findViewById<TextView>(R.id.textHumidity)
-                val textBrightness = findViewById<TextView>(R.id.textBrightness)
+                log("Value changed on ${characteristic.uuid}: ${characteristic.value.toHexString()}")
+
+
 
 
                 var temp = characteristic.value.decodeToString().split(";").get(0);
@@ -250,19 +278,14 @@ class BleOperationsActivity : AppCompatActivity() {
                 var humidity = characteristic.value.decodeToString().split(";").get(3);
                 var brightness = characteristic.value.decodeToString().split(";").get(4);
 
-                log("Read from ${characteristic.uuid}:")
-                log("Temperature: ${temp}")
-                log("Soil Moisture: ${soil_moisture}")
-                log("Air Quality: ${air_quality}")
-                log("Humidity: ${humidity}")
-                log("Brightness: ${brightness}")
 
 
-                textTemp.text = "Temperature: ${temp}"
-                textSoil.text = "Soil Moisture: ${soil_moisture}"
-                textAir.text = "Air Quality: ${air_quality}"
-                textHumidity.text = "Humidity: ${humidity}"
-                textBrightness.text = "Brightness: ${brightness}"
+
+                textTemp.setText("Temperature: ${temp}")
+                textSoil.setText("Soil Moisture: ${soil_moisture}")
+                textAir.setText("Air Quality: ${air_quality}")
+                textHumidity.setText("Humidity: ${humidity}")
+                textBrightness.setText("Brightness: ${brightness}")
 
 
             }
@@ -270,12 +293,7 @@ class BleOperationsActivity : AppCompatActivity() {
             onNotificationsEnabled = { _, characteristic ->
                 log("Enabled notifications on ${characteristic.uuid}")
                 notifyingCharacteristics.add(characteristic.uuid)
-                ConnectionManager.enableNotifications(device, characteristic)
-                val ln = findViewById<LinearLayout>(R.id.linlayout)
-                ln.visibility = View.INVISIBLE
 
-                val lnmain = findViewById<LinearLayout>(R.id.layMain)
-                lnmain.visibility = View.VISIBLE
             }
 
             onNotificationsDisabled = { _, characteristic ->
