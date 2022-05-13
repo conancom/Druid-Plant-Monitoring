@@ -45,12 +45,8 @@ class CharacteristicAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val item = items[position]
-        var characteristic =
-            item.service.getCharacteristic(UUID.nameUUIDFromBytes("0000ffe1-0000-1000-8000-00805f9b34fb".toByteArray()))
 
-        val text =
         holder.bind(item)
-
 
 
 

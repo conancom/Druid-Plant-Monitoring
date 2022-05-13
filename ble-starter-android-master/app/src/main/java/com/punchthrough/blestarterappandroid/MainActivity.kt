@@ -210,15 +210,15 @@ class MainActivity : AppCompatActivity() {
 
 
             if (indexQuery != -1) { // A scan result already exists with the same address
-                if(result.device.name.equals("BT05")) {
+               // if(result.device.name.equals("BT05")) {
                     scanResults[indexQuery] = result
                     scanResultAdapter.notifyItemChanged(indexQuery)
-                }
+               // }
             } else {
-                if (result.device.name.equals("BT05")) {
+                //if (result.device.name.equals("BT05")) {
                     with(result.device) {
                         Timber.i("Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
-                    }
+                   // }
                     scanResults.add(result)
                     scanResultAdapter.notifyItemInserted(scanResults.size - 1)
                 }
