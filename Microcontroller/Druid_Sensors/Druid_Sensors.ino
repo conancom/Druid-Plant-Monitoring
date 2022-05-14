@@ -1,28 +1,26 @@
-#include <LiquidCrystal_I2C.h>
+#include <SoftwareSerial.h>
 #include <Wire.h>
 #include <TimerOne.h>
+#include <LiquidCrystal_I2C.h>
 #include <DHT.h>
 
 #define dhtPin 4
 #define dhtType DHT11
 #define photoresPin A2
+#define airQualityPin A1
 #define soilPin A0
 
+#define duration 2000000
+
 DHT dht(dhtPin, dhtType);
-
-
-const int buttonPin = 5;
-int lastButtonState;
-int currentButtonState;
-
-const unsigned long duration = 4000000;   // Duration of display for 1 mode
-volatile int modeSelect = 0;              // Index of modes array
-int modeSelectCopy;                       // Copy of Index of modes array
-
-
+SoftwareSerial mySerial(2,3);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-String modes[5] = {"Temperature", "Soil Moisture", "Air Quality", "Humidity", "Brightness"};  // Modes for LCD display
-String sensorValues[5];
+
+volatile int modeSelect = 0;
+int modeSelectCopy; 
+String modes[5] = {"Temperature", "Soil Moisture", "Air Quality", "Humidity", "Sunlight"};
+volatile float sensorValues[5];
+float sensorValuesCopy[5];
 
 
 int getLuxValue(int analogVal)  {
@@ -35,19 +33,25 @@ int getLuxValue(int analogVal)  {
 }
 
 
-void getSensorData(void)  {
-  sensorValues[0] = String(float(dht.readTemperature())) + "*C";
-  sensorValues[1] = String(float(analogRead(soilPin)));
-  sensorValues[3] = String(float(dht.readHumidity())) + "%"; 
-  sensorValues[4] = String(getLuxValue(analogRead(photoresPin))) + " Lux";
+char* makeTransmitString() {
+  String combinedString = String(int(sensorValues[0])) + ";" + String(int(sensorValues[1])) + ";" + String(int(sensorValues[2])) + ";" + String(int(sensorValues[3])) + ";" + String(int(sensorValues[4]));
+  Serial.print(combinedString);
+  Serial.print(" this string has len of ");
+  Serial.println(combinedString.length());
 
-  // Testing values
-  Serial.print("Temperature : ");
-  Serial.print(sensorValues[0]);
-  Serial.print("\tHumidity : ");
-  Serial.print(sensorValues[3]);
-  Serial.print("\tBrightness : ");
-  Serial.println(sensorValues[4]);
+  char buf[18];
+  combinedString.toCharArray(buf, 18);
+  mySerial.write(buf);
+  mySerial.end();
+  
+}
+
+void getSensorData()  {
+  sensorValues[0] = dht.readTemperature();
+  sensorValues[1] = analogRead(soilPin);
+  sensorValues[2] = analogRead(airQualityPin);
+  sensorValues[3] = dht.readHumidity();
+  sensorValues[4] = getLuxValue(analogRead(photoresPin));
 }
 
 
@@ -61,18 +65,30 @@ void displayMode(int i) {
 }
 
 
-void setup(void) {
-  Serial.begin(9600);
+void setup(){
+  mySerial.begin(9600);   
+  Serial.begin(9600);  
+
   lcd.begin();
   lcd.backlight();
   displayMode(modeSelect);
-  
-  pinMode(buttonPin, INPUT_PULLUP);
-  
+
   Timer1.initialize(duration);
   Timer1.attachInterrupt(timer1_isr);
   dht.begin();
 
+  delay(500);
+}
+
+
+void loop(){
+  mySerial.begin(9600); 
+  if (modeSelect != modeSelectCopy) {   // Move to the next mode is the modeSelect does not equal its copy
+    displayMode(modeSelect);            // Update the display to the next mode
+    modeSelectCopy = modeSelect;  
+    makeTransmitString();
+  }
+ 
 }
 
 
@@ -86,21 +102,4 @@ void timer1_isr(void) { // Timer1 Interrupt (2 Seconds)
   interrupts();       // Enable interrupts in order to read data from sensors
   getSensorData();    // Get the data from the sensors
   
-}
-
-
-void loop(void) {
-  lastButtonState = currentButtonState;
-  currentButtonState = digitalRead(buttonPin);
-  
-
-  if (lastButtonState == HIGH && currentButtonState == LOW) {
-    Timer1.restart();
-  }
-
-  
-  if (modeSelect != modeSelectCopy) {   // Move to the next mode is the modeSelect does not equal its copy
-    displayMode(modeSelect);            // Update the display to the next mode
-    modeSelectCopy = modeSelect;        
-  }
 }
