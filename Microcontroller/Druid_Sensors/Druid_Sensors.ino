@@ -9,8 +9,8 @@
 #define photoresPin A2
 #define airQualityPin A1
 #define soilPin A0
-
-#define duration 2000000
+#define buttonPin 5
+#define duration 4000000
 
 DHT dht(dhtPin, dhtType);
 SoftwareSerial mySerial(2,3);
@@ -21,6 +21,9 @@ int modeSelectCopy;
 String modes[5] = {"Temperature", "Soil Moisture", "Air Quality", "Humidity", "Sunlight"};
 volatile float sensorValues[5];
 float sensorValuesCopy[5];
+
+int prevButtonState;
+int buttonState;
 
 
 int getLuxValue(int analogVal)  {
@@ -73,6 +76,8 @@ void setup(){
   lcd.backlight();
   displayMode(modeSelect);
 
+  pinMode(buttonPin, INPUT_PULLUP);
+  
   Timer1.initialize(duration);
   Timer1.attachInterrupt(timer1_isr);
   dht.begin();
@@ -82,6 +87,13 @@ void setup(){
 
 
 void loop(){
+  prevButtonState = buttonState;
+  buttonState = digitalRead(buttonPin);
+
+  if (prevButtonState == HIGH && buttonState == LOW)  {
+    Timer1.restart();
+  }
+
   mySerial.begin(9600); 
   if (modeSelect != modeSelectCopy) {   // Move to the next mode is the modeSelect does not equal its copy
     displayMode(modeSelect);            // Update the display to the next mode
@@ -92,13 +104,12 @@ void loop(){
 }
 
 
-void timer1_isr(void) { // Timer1 Interrupt (2 Seconds)
-  modeSelect = modeSelect + 1;
-  
+void timer1_isr() { // Timer1 Interrupt (2 Seconds)
+  modeSelect++;
   if (modeSelect > 4) { // If the pointer is over the length of modes array
     modeSelect = 0;
   }
-
+  
   interrupts();       // Enable interrupts in order to read data from sensors
   getSensorData();    // Get the data from the sensors
   
