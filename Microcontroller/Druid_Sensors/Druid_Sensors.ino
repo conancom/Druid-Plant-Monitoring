@@ -4,13 +4,15 @@
 #include <LiquidCrystal_I2C.h>
 #include <DHT.h>
 
+// Pins used on the Arduino
 #define dhtPin 4
 #define dhtType DHT11
 #define photoresPin A2
 #define airQualityPin A1
 #define soilPin A0
 #define buttonPin 5
-#define duration 4000000
+
+#define duration 4000000  // Interrupt signal will be sent every 4 seconds
 
 DHT dht(dhtPin, dhtType);
 SoftwareSerial mySerial(2,3);
@@ -19,37 +21,52 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 volatile int modeSelect = 0;
 int modeSelectCopy; 
 String modes[5] = {"Temperature", "Soil Moisture", "Air Quality", "Humidity", "Sunlight"};
+String units[5] = {"*C", "", "", "%", " Lumens"};
 volatile float sensorValues[5];
-float sensorValuesCopy[5];
+
 
 int prevButtonState;
 int buttonState;
 
 
-int getLuxValue(int analogVal)  {
+void getAirQuality(float gasLevel) {
+  if (gasLevel <= 175)  {
+    lcd.print("GOOD");
+  } else if (gasLevel > 175 && gasLevel <= 225) {
+    lcd.print("MODERATE");
+  } else if (gasLevel > 225 && gasLevel <= 300) {
+    lcd.print("POOR");
+  } else if (gasLevel > 300)  {
+    lcd.print("VERY POOR");
+  }
+}
+
+
+int getLuxValue(int analogVal)  {   // returns lux/lumen value from analog value of photoresistor
   // Conversion rule
   float Vout = float(analogVal) * (5 / float(1023));// Conversion analog to voltage
-  float RLDR = (10000 * (5 - Vout))/ Vout; // Conversion voltage to resistance
-  int lux = 500/(RLDR/1000); // Conversion resitance to lumen
+  float RLDR = (10000 * (5 - Vout))/ Vout; // Resistance of LDR
+  int lux = 500/(RLDR/1000); // Calculate Lumens from Resistance of LDR
   
   return lux;
 }
 
 
-char* makeTransmitString() {
-  String combinedString = String(int(sensorValues[0])) + ";" + String(int(sensorValues[1])) + ";" + String(int(sensorValues[2])) + ";" + String(int(sensorValues[3])) + ";" + String(int(sensorValues[4]));
-  Serial.print(combinedString);
-  Serial.print(" this string has len of ");
-  Serial.println(combinedString.length());
+char* makeTransmitString() {  // creates a string containing sensor data to send to bluetooth module
+  String combinedString = String(int(sensorValues[0])) + ";" + String(int(sensorValues[1])) + ";" + String(int(sensorValues[2])) + ";" 
+                          + String(int(sensorValues[3])) + ";" + String(int(sensorValues[4]));
+  // Serial.print(combinedString);
+  // Serial.print(" this string has len of ");
+  // Serial.println(combinedString.length());
 
   char buf[18];
-  combinedString.toCharArray(buf, 18);
-  mySerial.write(buf);
-  mySerial.end();
-  
+  combinedString.toCharArray(buf, 18);  // convert the string into a character array
+  mySerial.write(buf);  // send the character array to the bluetooth module
+  mySerial.end();     
 }
 
-void getSensorData()  {
+
+void getSensorData()  {  // get the data from all of the Druid sensors
   sensorValues[0] = dht.readTemperature();
   sensorValues[1] = analogRead(soilPin);
   sensorValues[2] = analogRead(airQualityPin);
@@ -64,7 +81,13 @@ void displayMode(int i) {
   lcd.setCursor(0, 0);
   lcd.print(modes[i]);
   lcd.setCursor(0, 1);
-  lcd.print(sensorValues[i]);
+  if (i == 2) {
+    getAirQuality(sensorValues[i]);
+  }
+  else  {
+    lcd.print(sensorValues[i]);
+    lcd.print(units[i]);
+  }
 }
 
 
@@ -87,11 +110,11 @@ void setup(){
 
 
 void loop(){
-  prevButtonState = buttonState;
+  prevButtonState = buttonState;      
   buttonState = digitalRead(buttonPin);
 
-  if (prevButtonState == HIGH && buttonState == LOW)  {
-    Timer1.restart();
+  if (prevButtonState == HIGH && buttonState == LOW)  {   // If the button is pressed restart Timer1 (Trigger it)
+    Timer1.restart();                         
   }
 
   mySerial.begin(9600); 
@@ -104,7 +127,7 @@ void loop(){
 }
 
 
-void timer1_isr() { // Timer1 Interrupt (2 Seconds)
+void timer1_isr() { // Timer1 Interrupt Service Routine
   modeSelect++;
   if (modeSelect > 4) { // If the pointer is over the length of modes array
     modeSelect = 0;
