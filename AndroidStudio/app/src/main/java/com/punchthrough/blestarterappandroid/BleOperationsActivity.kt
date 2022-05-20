@@ -297,13 +297,21 @@ class BleOperationsActivity : AppCompatActivity() {
                 var brightness = characteristic.value.decodeToString().split(";").get(4);
 
 
+                if (air_quality.toInt() <= 175) {
+                    air_quality = "GOOD"
+                } else if (air_quality.toInt()  > 175 && air_quality.toInt()  <= 225){
+                    air_quality = "MODERATE"
+                } else if (air_quality.toInt()  > 225 && air_quality.toInt()  <= 300){
+                    air_quality = "POOR"
+                } else {
+                    air_quality = "VERY POOR"
+                }
 
-
-                textTemp.setText("Temperature: ${temp} C" )
-                textSoil.setText("Soil Moisture: ${soil_moisture} Moist")
-                textAir.setText("Air Quality: ${air_quality} Good")
-                textHumidity.setText("Humidity: ${humidity} Humid")
-                textBrightness.setText("Brightness: ${brightness} Bright")
+                textTemp.setText("Temperature ${temp}°C" )
+                textSoil.setText("Soil Moisture ${soil_moisture} Moist")
+                textAir.setText("Air Quality ${air_quality}")
+                textHumidity.setText("Humidity ${humidity}%")
+                textBrightness.setText("Brightness ${brightness} Lumens")
 
 
             }

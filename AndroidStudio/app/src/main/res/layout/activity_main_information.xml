@@ -22,8 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".BleOperationsActivity"
-    >
+    tools:context=".BleOperationsActivity">
 
     <LinearLayout
         android:id="@+id/layMain"
@@ -34,50 +33,210 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/characteristics_title"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/characteristics_title">
 
-        <TextView
-            android:id="@+id/textTemp"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:text="@string/temperature"
-            />
-
-        <TextView
-            android:id="@+id/textSoil"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:text="@string/soil_moisture"
-            />
-
-        <TextView
-            android:id="@+id/textAriQu"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:text="@string/air_quality"
-            />
-
-        <TextView
-            android:id="@+id/textHumidity"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:text="@string/humidity"
-            />
-
-        <TextView
-            android:id="@+id/textBrightness"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:text="@string/brightness"
-            />
-
-        <Button
-            android:id="@+id/tbutton"
-            android:layout_width="match_parent"
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
-            />
+            android:layout_margin="5dp"
+            app:rowCount="3"
+            app:columnCount="2"
+            app:alignmentMode="alignMargins"
+            android:layout_gravity="center_horizontal"
+            app:columnOrderPreserved="false">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/thermometer"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="46dp"
+                        android:text="@string/temperature"
+                        android:textSize="16dp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/plant"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textSoil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="46dp"
+                        android:text="@string/soil_moisture"
+                        android:textSize="16dp"
+                        android:textAlignment="center"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_margin="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/wind"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textAriQu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="46dp"
+                        android:text="@string/air_quality"
+                        android:textSize="16dp"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_margin="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/idea"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textBrightness"
+                        android:layout_width="wrap_content"
+                        android:layout_height="46dp"
+                        android:text="@string/brightness"
+                        android:textSize="16dp"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_margin="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/humidity"
+                        android:layout_marginBottom="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textHumidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="46dp"
+                        android:text="@string/humidity"
+                        android:textSize="16dp"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="5dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_margin="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/tbutton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Change Mode"
+                        android:background="@color/cardview_light_background"
+                        android:textSize="16dp"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.gridlayout.widget.GridLayout>
+
     </LinearLayout>
 
     <androidx.appcompat.widget.Toolbar
@@ -99,7 +258,7 @@
         android:id="@+id/characteristics_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Druid Information On Seperate Activity"
+        android:text="My Druid Plant"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,3 +269,4 @@
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
