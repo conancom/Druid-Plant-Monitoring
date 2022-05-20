@@ -5,17 +5,17 @@
 #include <DHT.h>
 
 // Pins used on the Arduino
-#define dhtPin 4
+#define dhtPin 2
 #define dhtType DHT11
-#define photoresPin A2
+#define photoresPin A3
 #define airQualityPin A1
 #define soilPin A0
-#define buttonPin 5
+#define buttonPin 3
 
 #define duration 4000000  // Interrupt signal will be sent every 4 seconds
 
 DHT dht(dhtPin, dhtType);
-SoftwareSerial mySerial(2,3);
+SoftwareSerial mySerial(10, 11);
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 volatile int modeSelect = 0;
