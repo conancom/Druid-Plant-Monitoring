@@ -206,7 +206,7 @@ class BleOperationsActivity : AppCompatActivity() {
                             startActivity(intent)
 
                              */
-                            mainChar = characteristic
+
                             setContentView(R.layout.activity_main_information)
                             textTemp = findViewById(R.id.textTemp)
                             textSoil = findViewById(R.id.textSoil)
@@ -215,7 +215,7 @@ class BleOperationsActivity : AppCompatActivity() {
                             textBrightness = findViewById(R.id.textBrightness)
                             togButton = findViewById(R.id.tbutton)
                             togButton.setOnClickListener {
-                                ConnectionManager.writeCharacteristic(device, mainChar, "to;gg;le;te;st".toByteArray())
+                                ConnectionManager.writeCharacteristic(device, characteristic, "1".toByteArray())
                             }
                         }
                     }

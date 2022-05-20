@@ -118,6 +118,15 @@ void loop(){
   }
 
   mySerial.begin(9600); 
+
+  
+ if (mySerial.available()>0){ //Take input from Bluetooth check
+    if (mySerial.read()==49){
+      Timer1.restart();
+      Serial.println("Pressed");
+    }
+ }
+    
   if (modeSelect != modeSelectCopy) {   // Move to the next mode is the modeSelect does not equal its copy
     displayMode(modeSelect);            // Update the display to the next mode
     modeSelectCopy = modeSelect;  
