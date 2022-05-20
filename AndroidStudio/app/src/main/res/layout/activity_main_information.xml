@@ -26,14 +26,22 @@
 
     <LinearLayout
         android:id="@+id/layMain"
-        android:layout_width="409dp"
-        android:layout_height="658dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/characteristics_title">
+        android:visibility="visible">
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/characteristics_title">-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Druid"
+            android:textSize="30dp"
+            android:textColor="@color/green"
+            android:layout_margin="20dp"
+            android:fontFamily="sans-serif-condensed-medium"/>
 
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="wrap_content"
@@ -66,11 +74,22 @@
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
-                        android:id="@+id/textTemp"
                         android:layout_width="wrap_content"
-                        android:layout_height="46dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Temperature"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        />
+
+                    <TextView
+                        android:id="@+id/textTemp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/temperature"
-                        android:textSize="16dp"
+                        android:textSize="17dp"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
@@ -97,11 +116,22 @@
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
-                        android:id="@+id/textSoil"
                         android:layout_width="wrap_content"
-                        android:layout_height="46dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Soil Moisture"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        />
+
+                    <TextView
+                        android:id="@+id/textSoil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/soil_moisture"
-                        android:textSize="16dp"
+                        android:textSize="17dp"
                         android:textAlignment="center"/>
 
 
@@ -131,11 +161,22 @@
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
-                        android:id="@+id/textAriQu"
                         android:layout_width="wrap_content"
-                        android:layout_height="46dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Air Quality"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        />
+
+                    <TextView
+                        android:id="@+id/textAriQu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/air_quality"
-                        android:textSize="16dp"
+                        android:textSize="17dp"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -164,11 +205,23 @@
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
-                        android:id="@+id/textBrightness"
                         android:layout_width="wrap_content"
-                        android:layout_height="46dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Brightness"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/textBrightness"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@string/brightness"
-                        android:textSize="16dp"
+                        android:textSize="17dp"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -194,15 +247,25 @@
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/humidity"
-                        android:layout_marginBottom="10dp"/>
+                        android:src="@drawable/humidity"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Humidity"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        />
 
                     <TextView
                         android:id="@+id/textHumidity"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="46dp"
                         android:text="@string/humidity"
-                        android:textSize="16dp"
+                        android:textSize="17dp"
                         android:textAlignment="center"/>
 
                 </LinearLayout>
@@ -228,9 +291,11 @@
                         android:id="@+id/tbutton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Change Mode"
-                        android:background="@color/cardview_light_background"
-                        android:textSize="16dp"/>
+                        android:text="Cycle Mode"
+                        android:textColor="@color/white"
+                        android:background="@color/lightGreen"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:textSize="17dp"/>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -239,34 +304,34 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#99CC67"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        />
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/lightGreen"-->
+<!--        android:minHeight="?attr/actionBarSize"-->
+<!--        android:theme="?attr/actionBarTheme"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0"-->
+<!--        />-->
 
-    <TextView
-        android:id="@+id/characteristics_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Druid Plant"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.021"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/characteristics_title"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="My Druid Plant"-->
+<!--        android:textSize="25sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.021"-->
+<!--        />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

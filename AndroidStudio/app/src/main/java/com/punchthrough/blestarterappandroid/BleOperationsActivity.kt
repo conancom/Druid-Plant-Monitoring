@@ -46,6 +46,7 @@ import kotlinx.android.synthetic.main.activity_ble_operations.log_text_view
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.selector
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.yesButton
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -298,20 +299,21 @@ class BleOperationsActivity : AppCompatActivity() {
 
 
                 if (air_quality.toInt() <= 175) {
-                    air_quality = "GOOD"
+                    air_quality = "Good"
+                    textAir.textColor = (-0x4CAF50)
                 } else if (air_quality.toInt()  > 175 && air_quality.toInt()  <= 225){
-                    air_quality = "MODERATE"
+                    air_quality = "Moderate"
                 } else if (air_quality.toInt()  > 225 && air_quality.toInt()  <= 300){
-                    air_quality = "POOR"
+                    air_quality = "Poor"
                 } else {
-                    air_quality = "VERY POOR"
+                    air_quality = "Very Poor"
                 }
 
-                textTemp.setText("Temperature ${temp}°C" )
-                textSoil.setText("Soil Moisture ${soil_moisture} Moist")
-                textAir.setText("Air Quality ${air_quality}")
-                textHumidity.setText("Humidity ${humidity}%")
-                textBrightness.setText("Brightness ${brightness} Lumens")
+                textTemp.text = ("${temp}°C" )
+                textSoil.text = ("${soil_moisture}")
+                textAir.text =("${air_quality}")
+                textHumidity.text = ("${humidity}%")
+                textBrightness.text = ("${brightness} Lumens")
 
 
             }
