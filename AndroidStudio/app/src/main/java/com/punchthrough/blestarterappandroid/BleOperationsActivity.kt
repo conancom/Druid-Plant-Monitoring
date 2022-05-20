@@ -25,11 +25,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -60,6 +59,9 @@ class BleOperationsActivity : AppCompatActivity() {
     private lateinit var textAir:TextView
     private lateinit var textHumidity:TextView
     private lateinit var textBrightness:TextView
+    private lateinit var togButton:Button
+    private lateinit var mainChar:BluetoothGattCharacteristic
+
 
 /*
     val textTemp:TextView = TODO() //findViewById<TextView>(R.id.textTemp)
@@ -187,18 +189,34 @@ class BleOperationsActivity : AppCompatActivity() {
                             log("Enabling notifications on ${characteristic.uuid}")
                             ConnectionManager.enableNotifications(device, characteristic)
 
-                            val ln = findViewById<LinearLayout>(R.id.linlayout)
-                            ln.visibility = View.INVISIBLE
+                            //val ln = findViewById<LinearLayout>(R.id.linlayout)
+                            //ln.visibility = View.INVISIBLE
 
-                            val lnmain = findViewById<LinearLayout>(R.id.layMain)
-                            lnmain.visibility = View.VISIBLE
+                            //val lnmain = findViewById<LinearLayout>(R.id.layMain)
+                            //lnmain.visibility = View.VISIBLE
 
+
+
+                            /*
+                            val intent = Intent(this@BleOperationsActivity, BleInformationActivityActivity::class.java).also {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    it.putExtra("Characteristic", characteristic)
+                                }
+                            }.apply {  }
+                            startActivity(intent)
+
+                             */
+                            mainChar = characteristic
+                            setContentView(R.layout.activity_main_information)
                             textTemp = findViewById(R.id.textTemp)
                             textSoil = findViewById(R.id.textSoil)
                             textAir = findViewById(R.id.textAriQu)
                             textHumidity = findViewById(R.id.textHumidity)
                             textBrightness = findViewById(R.id.textBrightness)
-
+                            togButton = findViewById(R.id.tbutton)
+                            togButton.setOnClickListener {
+                                ConnectionManager.writeCharacteristic(device, mainChar, "toggle".toByteArray())
+                            }
                         }
                     }
                 }
