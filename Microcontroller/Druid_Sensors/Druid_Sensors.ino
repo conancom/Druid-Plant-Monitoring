@@ -29,16 +29,71 @@ int prevButtonState;
 int buttonState;
 
 
-void getAirQuality(float gasLevel) {
-  if (gasLevel <= 175)  {
-    lcd.print("GOOD");
-  } else if (gasLevel > 175 && gasLevel <= 225) {
-    lcd.print("MODERATE");
-  } else if (gasLevel > 225 && gasLevel <= 300) {
-    lcd.print("POOR");
-  } else if (gasLevel > 300)  {
-    lcd.print("VERY POOR");
+void displaySoilMoisture(int soilVal) {
+  if (soilVal == 0) {
+    lcd.print("DRY");
+  } else {
+    lcd.print("WET");
   }
+}
+
+
+int getSoilMoistureValueV1(int soilAnalog) {    // For Resistive Soil Moisture Sensor
+  int soilVal;
+  if (soilAnalog >= 750) {
+    soilVal = 0;
+  } else {
+    soilVal = 1;
+  }
+
+  return soilVal;
+}
+
+int getSoilMoistureValueV2(int soilAnalog) {    // For Capactive Soil Moisture Sensor
+  int soilVal;
+  if (soilAnalog >= 360) {
+    soilVal = 0;
+  } else {
+    soilVal = 1;
+  }
+
+  return soilVal;
+}
+
+
+
+
+void displayAirQuality(int airQualityVal) {
+  switch(airQualityVal) {
+    case 0:
+      lcd.print("GOOD");
+      break;
+    case 1:
+      lcd.print("MODERATE");
+      break;
+    case 2:
+      lcd.print("POOR");
+      break;
+    case 3:
+      lcd.print("VERY POOR");
+      break;
+      
+  }
+}
+
+int getAirQuality(float gasLevel) {
+  float airQualityVal;
+  if (gasLevel <= 175)  {
+    airQualityVal = 0;
+  } else if (gasLevel > 175 && gasLevel <= 225) {
+    airQualityVal = 1;
+  } else if (gasLevel > 225 && gasLevel <= 300) {
+    airQualityVal = 2;
+  } else if (gasLevel > 300)  {
+    airQualityVal = 3;
+  }
+
+  return airQualityVal;
 }
 
 
@@ -53,11 +108,11 @@ int getLuxValue(int analogVal)  {   // returns lux/lumen value from analog value
 
 
 char* makeTransmitString() {  // creates a string containing sensor data to send to bluetooth module
-  String combinedString = String(int(sensorValues[0])) + ";" + String(int(sensorValues[1])) + ";" + String(int(sensorValues[2])) + ";" 
+  String combinedString = String(sensorValues[0]) + ";" + String(int(sensorValues[1])) + ";" + String(int(sensorValues[2])) + ";" 
                           + String(int(sensorValues[3])) + ";" + String(int(sensorValues[4]));
-  // Serial.print(combinedString);
-  // Serial.print(" this string has len of ");
-  // Serial.println(combinedString.length());
+   Serial.print(combinedString);
+   Serial.print(" this string has len of ");
+   Serial.println(combinedString.length());
 
   char buf[18];
   combinedString.toCharArray(buf, 18);  // convert the string into a character array
@@ -68,8 +123,8 @@ char* makeTransmitString() {  // creates a string containing sensor data to send
 
 void getSensorData()  {  // get the data from all of the Druid sensors
   sensorValues[0] = dht.readTemperature();
-  sensorValues[1] = analogRead(soilPin);
-  sensorValues[2] = analogRead(airQualityPin);
+  sensorValues[1] = getSoilMoistureValueV2(analogRead(soilPin));
+  sensorValues[2] = getAirQuality(analogRead(airQualityPin));
   sensorValues[3] = dht.readHumidity();
   sensorValues[4] = getLuxValue(analogRead(photoresPin));
 }
@@ -81,12 +136,14 @@ void displayMode(int i) {
   lcd.setCursor(0, 0);
   lcd.print(modes[i]);
   lcd.setCursor(0, 1);
-  if (i == 2) {
-    getAirQuality(sensorValues[i]);
-  }
-  else  {
-    lcd.print(sensorValues[i]);
-    lcd.print(units[i]);
+
+  if (i == 1) {
+      displaySoilMoisture(sensorValues[i]);
+  } else if (i == 2) {
+      displayAirQuality(sensorValues[i]);
+  } else  {
+      lcd.print(sensorValues[i]);
+      lcd.print(units[i]);
   }
 }
 
@@ -120,10 +177,10 @@ void loop(){
   mySerial.begin(9600); 
 
   
- if (mySerial.available()>0){ //Take input from Bluetooth check
-    if (mySerial.read()==49){
+ if (mySerial.available() > 0){ // Take input from Bluetooth check
+    if (mySerial.read() == 49){
       Timer1.restart();
-      Serial.println("Pressed");
+      // Serial.println("Pressed");
     }
  }
     
