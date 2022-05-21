@@ -49,6 +49,7 @@ int getSoilMoistureValueV1(int soilAnalog) {    // For Resistive Soil Moisture S
   return soilVal;
 }
 
+
 int getSoilMoistureValueV2(int soilAnalog) {    // For Capactive Soil Moisture Sensor
   int soilVal;
   if (soilAnalog >= 360) {
@@ -59,8 +60,6 @@ int getSoilMoistureValueV2(int soilAnalog) {    // For Capactive Soil Moisture S
 
   return soilVal;
 }
-
-
 
 
 void displayAirQuality(int airQualityVal) {
@@ -122,8 +121,9 @@ char* makeTransmitString() {  // creates a string containing sensor data to send
 
 
 void getSensorData()  {  // get the data from all of the Druid sensors
-  sensorValues[0] = dht.readTemperature();
-  sensorValues[1] = getSoilMoistureValueV2(analogRead(soilPin));
+  sensorValues[0] = dht.readTemperature();                              // Use one of them
+  //sensorValues[1] = getSoilMoistureValueV1(analogRead(soilPin));     // For Resistive Soil Moisture sensor
+  sensorValues[1] = getSoilMoistureValueV2(analogRead(soilPin));       // For Capacitive Soil Moisture sensor
   sensorValues[2] = getAirQuality(analogRead(airQualityPin));
   sensorValues[3] = dht.readHumidity();
   sensorValues[4] = getLuxValue(analogRead(photoresPin));
